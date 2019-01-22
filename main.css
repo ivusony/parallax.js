@@ -1,0 +1,36 @@
+.cube {
+    border-radius: 100px;
+}
+
+#first {
+    width: 200px;
+    height: 200px;
+    background-color: orange;
+    position: absolute;
+    left: 200px;
+    top: 300px;
+}
+#second {
+    width: 200px;
+    height: 200px;
+    background-color: rgb(223, 91, 29);
+    position: absolute;
+    left: 450px;
+    top: 250px;
+}
+#third {
+    width: 200px;
+    height: 200px;
+    background-color: rgb(115, 255, 0);
+    position: absolute;
+    left: 700px;
+    top: 350px;
+}
+#fourth {
+    width: 200px;
+    height: 200px;
+    background-color: rgb(9, 27, 184);
+    position: absolute;
+    left: 950px;
+    top: 400px;
+}
