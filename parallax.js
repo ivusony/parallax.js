@@ -3,17 +3,7 @@
 
     
     function factory(element, ratio, duration, ease){
-        if(!ratio){
-            ratio = 20
-        }
-        if(!duration){
-            duration = 3
-        }
-        if(!ease){
-            ease = " cubic-bezier(0.000, 0.000, 0.460, 1.1)"
-        }
         
-
         //returns the css text string
         function returnCSSText (){
             return  "-webkit-transition: all " + duration + "s "+ ease + "; -webkit-transition: all " + duration +"s "+ ease +";-moz-transition: all "+ duration +"s " + ease +";-o-transition: all "+ duration +"s "+ ease +";transition: all "+ duration +"s "+ ease +", 1.195);transform-origin: cemter;-webkit-backface-visibility: hidden;"
@@ -30,26 +20,45 @@
         })(elementPos)
      
 
-
         element.style.cssText = returnCSSText();
 
         window.addEventListener('mousemove', function(e){
-            //translate3d(X, Y, Z)
-            if(elementPos.x>e.clientX){ //
-                if(elementPos.y>e.clientY){
-                    element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
-                }else{
-                    element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
-                }
-            }else{ //if divX < clientX
-                    if(elementPos.y>e.clientY){
-                        element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
-                    }else{
-                        element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
+           (function(e){
+               setTimeout(function(){
+                    if(elementPos.x>e.clientX){ //
+                        if(elementPos.y>e.clientY){
+                            element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
+                        }else{
+                            element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
+                        }
+                    }else{ //if divX < clientX
+                            if(elementPos.y>e.clientY){
+                                element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
+                            }else{
+                                element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
+                            }
                     }
-            }
-            
+                },1)
+           })(e)
         })
+
+        // as long as it continues to be invoked, raise on every interval
+        function throttle (event, func, interval) {
+            console.log(event);
+            var timeout;
+            return function() {
+                var later = function () {
+                    timeout = false;
+                };
+                if (!timeout) {
+                    func(event)
+                    timeout = true;
+                    setTimeout(later, interval)
+                }
+            }
+        }
+
+        
 
         element.addEventListener('transitionend' , function(e){
             console.log('Transition has ended')
@@ -62,7 +71,19 @@
     
 
    const parallax = function(elementToBeAnimated, ratio, duration, ease){
+
+        //checking passed parameters, setting default values
         if(!elementToBeAnimated)return parallax;
+
+        if(!ratio || typeof ratio == 'string'){
+            ratio = 20
+        }
+        if(!duration || typeof duration == 'string' || duration>10){
+            duration = 3
+        }
+        if(!ease){
+            ease = " cubic-bezier(0.000, 0.000, 0.460, 1.1)"
+        }
 
         //if string is passed
         if(typeof elementToBeAnimated === 'string'){
@@ -78,6 +99,9 @@
         }
        
    }
+
+   
+
    global.parallax = parallax;
    return parallax
 })(window);
