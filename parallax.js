@@ -2,22 +2,22 @@
 (function (global) {
 
     
-    function factory(element, ratio){
+    function factory(element, ratio, duration, ease){
         if(!ratio){
             ratio = 20
         }
-        var duration = 1;
-        // var div = element;
+        if(!duration){
+            duration = 3
+        }
+        if(!ease){
+            ease = " cubic-bezier(0.000, 0.000, 0.460, 1.1)"
+        }
         
 
-   
-
-        // div.style.left = window.innerWidth/2 - 100 +'px';
-        // div.style.top = window.innerHeight/2 - 100 +'px';
-
-
-//         console.log("Screen: " + screen.width + ' : ' + screen.height);
-//    console.log("Window: "+window.innerWidth + ' : ' + window.innerHeight);
+        //returns the css text string
+        function returnCSSText (){
+            return  "-webkit-transition: all " + duration + "s "+ ease + "; -webkit-transition: all " + duration +"s "+ ease +";-moz-transition: all "+ duration +"s " + ease +";-o-transition: all "+ duration +"s "+ ease +";transition: all "+ duration +"s "+ ease +", 1.195);transform-origin: cemter;-webkit-backface-visibility: hidden;"
+        }
 
 
         var elementPos = element.getBoundingClientRect();
@@ -31,22 +31,21 @@
      
 
 
-  
-        element.style.cssText =  "-webkit-transition: all 1300ms cubic-bezier(0.000, 0.000, 0.460, 1); -webkit-transition: all 1300ms cubic-bezier(0.000, 0.000, 0.460, 1.195);-moz-transition: all 1300ms cubic-bezier(0.000, 0.000, 0.460, 1.195);-o-transition: all 1300ms cubic-bezier(0.000, 0.000, 0.460, 1.195);transition: all 1300ms cubic-bezier(0.000, 0.000, 0.460, 1.195);transform-origin: cemter;-webkit-backface-visibility: hidden;"
+        element.style.cssText = returnCSSText();
 
         window.addEventListener('mousemove', function(e){
             //translate3d(X, Y, Z)
             if(elementPos.x>e.clientX){ //
                 if(elementPos.y>e.clientY){
-                    element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,-${(elementCenterPosition.y - e.clientY)/ratio}px,0)`;
+                    element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
                 }else{
-                    element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,${(e.clientY - elementCenterPosition.y)/ratio}px,0)`;
+                    element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
                 }
             }else{ //if divX < clientX
                     if(elementPos.y>e.clientY){
-                        element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,-${(elementCenterPosition.y - e.clientY)/ratio}px,0)`;
+                        element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
                     }else{
-                        element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,${(e.clientY - elementCenterPosition.y)/ratio}px,0)`;
+                        element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
                     }
             }
             
@@ -62,7 +61,7 @@
 
     
 
-   const parallax = function(elementToBeAnimated, ratio){
+   const parallax = function(elementToBeAnimated, ratio, duration, ease){
         if(!elementToBeAnimated)return parallax;
 
         //if string is passed
@@ -70,12 +69,12 @@
             if(!document.querySelector(elementToBeAnimated)){
                 return
             }else{
-                return factory(document.querySelector(elementToBeAnimated), ratio);
+                return factory(document.querySelector(elementToBeAnimated), ratio, duration, ease);
             }
         }
         //if node is passed
         if(typeof elementToBeAnimated === 'object'){
-            return factory(elementToBeAnimated, ratio)
+            return factory(elementToBeAnimated, ratio, duration, ease)
         }
        
    }
