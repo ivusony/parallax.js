@@ -23,48 +23,22 @@
         element.style.cssText = returnCSSText();
 
         window.addEventListener('mousemove', function(e){
-           (function(e){
-               setTimeout(function(){
-                    if(elementPos.x>e.clientX){ //
-                        if(elementPos.y>e.clientY){
-                            element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
-                        }else{
-                            element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
-                        }
-                    }else{ //if divX < clientX
-                            if(elementPos.y>e.clientY){
-                                element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
-                            }else{
-                                element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
-                            }
-                    }
-                },1)
-           })(e)
-        })
-
-        // as long as it continues to be invoked, raise on every interval
-        function throttle (event, func, interval) {
-            console.log(event);
-            var timeout;
-            return function() {
-                var later = function () {
-                    timeout = false;
-                };
-                if (!timeout) {
-                    func(event)
-                    timeout = true;
-                    setTimeout(later, interval)
+            if(elementPos.x>e.clientX){ //
+                if(elementPos.y>e.clientY){
+                    element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
+                }else{
+                    element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
                 }
+            }else{ //if divX < clientX
+                    if(elementPos.y>e.clientY){
+                        element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
+                    }else{
+                        element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
+                    }
             }
-        }
-
-        
-
-        element.addEventListener('transitionend' , function(e){
-            console.log('Transition has ended')
         })
 
-        //if screen is resized
+       
         
     } //end of factory
 
@@ -82,7 +56,7 @@
             duration = 3
         }
         if(!ease){
-            ease = " cubic-bezier(0.000, 0.000, 0.460, 1.1)"
+            ease = " cubic-bezier(0.000, 0.0, 0.580, 1.000)"
         }
 
         //if string is passed
