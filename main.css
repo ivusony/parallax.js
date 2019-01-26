@@ -5,7 +5,8 @@
 #first {
     width: 200px;
     height: 200px;
-    background-color: orange;
+    background-image: url('./assets/img/0112090032-1-l&d-tee-love\ tee\ black\ white.png');
+    background-size:100% auto;
     position: absolute;
     left: 200px;
     top: 300px;
@@ -13,7 +14,8 @@
 #second {
     width: 200px;
     height: 200px;
-    background-color: rgb(223, 91, 29);
+    background-image: url('./assets/img/0112120062-1-l\ &d-skjorte-love\ 286\ chain\ 10703.png');
+    background-size:100% auto;
     position: absolute;
     left: 450px;
     top: 250px;
@@ -21,7 +23,8 @@
 #third {
     width: 200px;
     height: 200px;
-    background-color: rgb(115, 255, 0);
+    background-image: url('./assets/img/0112270049-1-l&d-top-love\ 157-3\ navy\ glitter.png');
+    background-size:100% auto;
     position: absolute;
     left: 700px;
     top: 350px;
@@ -29,7 +32,8 @@
 #fourth {
     width: 200px;
     height: 200px;
-    background-color: rgb(9, 27, 184);
+    background-image: url('./assets/img/0118280003-1-wrangler-kjole-flannel\ dress\ black.png');
+    background-size:100% auto;
     position: absolute;
     left: 950px;
     top: 400px;

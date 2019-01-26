@@ -22,7 +22,23 @@
 
         element.style.cssText = returnCSSText();
 
-        window.addEventListener('mousemove', function(e){
+        
+
+
+         //throtler function
+
+        var throttler = function(delay, cb){
+            let lastCall = 0;
+            return function(e){
+                let now = (new Date).getTime();
+                if(now - lastCall < delay)return;
+                lastCall = now;
+                return cb(e)
+            }
+        }
+
+
+        var animator = function(e){
             if(elementPos.x>e.clientX){ //
                 if(elementPos.y>e.clientY){
                     element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
@@ -36,12 +52,14 @@
                         element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
                     }
             }
-        })
+        }
 
+        window.addEventListener('mousemove', throttler(5, animator)); //don't run animator unless 5ms has passed from the last call
        
         
     } //end of factory
 
+   
     
 
    const parallax = function(elementToBeAnimated, ratio, duration, ease){
@@ -69,6 +87,7 @@
         }
         //if node is passed
         if(typeof elementToBeAnimated === 'object'){
+            console.log(elementToBeAnimated.__proto__)
             return factory(elementToBeAnimated, ratio, duration, ease)
         }
        
