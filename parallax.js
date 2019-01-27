@@ -11,42 +11,53 @@
         //SETTING PROTOTYPE STEP 2
         const customMethods = Object.create(originalProto);
  
-        customMethods.follow = function(ratio, duration, ease){
+        customMethods.pull = function(ratio, duration, ease, push){
                                 var element = this;
 
                                 if(!ratio || typeof ratio == 'string'){
                                     ratio = 20
                                 }
                                 if(!duration || typeof duration == 'string' || duration>10){
-                                    duration = 3
+                                    duration = 0.3
                                 }
                                 if(!ease){
-                                    ease = " cubic-bezier(0.000, 0.0, 0.7, 1.000)"
+                                    // ease = " cubic-bezier(0.000, 0.0, 0.7, 1.000)";
+                                    ease = " ease-out"
                                 }
                                 //returns the css text string
-                                        function returnCSSText (){
-                                            // return  "-webkit-transition: all " + duration + "s "+ ease + "; -webkit-transition: all " + duration +"s "+ ease +";-moz-transition: all "+ duration +"s " + ease +";-o-transition: all "+ duration +"s "+ ease +";transition: all "+ duration +"s "+ ease +", 1.195);transform-origin: cemter;-webkit-backface-visibility: hidden;"
-                                            return "-webkit-transition: all 0.5s ease-out; transform-origin: 51%;"
-                                        }
+                                element.style.cssText = (function returnCSSText (){
+                                    return  "-webkit-transition: all " + duration + "s "+ ease + "; -webkit-transition: all " + duration +"s "+ ease +";-moz-transition: all "+ duration +"s " + ease +";-o-transition: all "+ duration +"s "+ ease +";transition: all "+ duration +"s "+ ease +", 1.195);transform-origin: 60%;-webkit-backface-visibility: hidden;-webkit-transform: translateZ(0) scale(1.0, 1.0);transform: translateZ(0);"
+                                })()
 
-
+                                        //returning original X and Y
                                         var elementPos = element.getBoundingClientRect();
-                                        //calculate new x and y of the element, so that the calculations can be made from the elements center
+                                        //recalculating X and Y
                                         var elementCenterPosition = (function(currentPos){
                                             return {
                                                 x   :   currentPos.left + (currentPos.width/2),
                                                 y   :   currentPos.top + (currentPos.height/2)
                                             }
                                         })(elementPos)
-                                    
-
-                                        element.style.cssText = returnCSSText();
-
+                                
                                         
-
+                                        var animator = function(e){
+                                            //if pointer is left from element
+                                            if(elementPos.x>e.clientX){ 
+                                                if(elementPos.y>e.clientY){//if element is under mouse position //top left 
+                                                    element.style.transform =  push ?  `translate3d(${(elementCenterPosition.x - e.clientX)/ratio}px,${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)` : `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
+                                                }else{//if mouse is under element position //bottom left 
+                                                    element.style.transform = push ? `translate3d(${(elementCenterPosition.x - e.clientX)/ratio}px,-${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)` : `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
+                                                }
+                                            }else{ //if pointer is right from element
+                                                    if(elementPos.y>e.clientY){//top right
+                                                        element.style.transform = push ? `translate3d(-${(e.clientX - elementCenterPosition.x)/ratio}px,${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)` : `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
+                                                    }else{//bottom right
+                                                        element.style.transform = push ? `translate3d(-${(e.clientX - elementCenterPosition.x)/ratio}px,-${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)` : `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
+                                                    }
+                                            }
+                                        }
 
                                         //throtler function
-
                                         var throttler = function(delay, cb){
                                             let lastCall = 0;
                                             return function(e){
@@ -57,31 +68,18 @@
                                             }
                                         }
 
-
-                                        var animator = function(e){
-                                            if(elementPos.x>e.clientX){ //
-                                                if(elementPos.y>e.clientY){
-                                                    element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
-                                                }else{
-                                                    element.style.transform = `translate3d(-${(elementCenterPosition.x - e.clientX)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
-                                                }
-                                            }else{ //if divX < clientX
-                                                    if(elementPos.y>e.clientY){
-                                                        element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,-${(elementCenterPosition.y - e.clientY)/(ratio/2)}px,0)`;
-                                                    }else{
-                                                        element.style.transform = `translate3d(${(e.clientX - elementCenterPosition.x)/ratio}px,${(e.clientY - elementCenterPosition.y)/(ratio/2)}px,0)`;
-                                                    }
-                                            }
-                                        }
-
-                                        window.addEventListener('mousemove', throttler(10, animator)); //don't run animator unless 5ms has passed from the last call
+                                        window.addEventListener('mousemove', throttler(40, animator)); //don't run animator unless X amount of time has passed from the last call
 
                                         return element;
-                }//end of follow
+                }, //end of pull
+
+                customMethods.push = function(ratio, duration, ease){
+                    if(!ratio)ratio=20;
+                    if(!duration)duration=0.3;
+                    if(!ease)ease="ease-out";
+                    this.pull(ratio, duration, ease, true)
+                }
         
-
-
-
                 return customMethods;
     } //end of factory
 
@@ -111,8 +109,6 @@
 
        
    }
-
-   
 
    global.parallax = init;
    return init

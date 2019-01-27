@@ -3,40 +3,48 @@
 }
 
 #first {
-    width: 200px;
-    height: 200px;
-    background-image: url('./assets/img/0112090032-1-l&d-tee-love\ tee\ black\ white.png');
+    width: 400px;
+    height: 400px;
+    /* background-image: url('./assets/img/0112090032-1-l&d-tee-love\ tee\ black\ white.png'); */
+    background-color: aquamarine;
     background-size:100% auto;
     position: absolute;
     left: 200px;
     top: 300px;
+    z-index: 4;
 }
 #second {
-    width: 200px;
-    height: 200px;
-    background-image: url('./assets/img/0112120062-1-l\ &d-skjorte-love\ 286\ chain\ 10703.png');
+    width: 400px;
+    height: 400px;
+    /* background-image: url('./assets/img/0112120062-1-l\ &d-skjorte-love\ 286\ chain\ 10703.png'); */
+    background-color: rgb(34, 221, 159);
     background-size:100% auto;
     position: absolute;
-    left: 450px;
-    top: 250px;
+    left: 200px;
+    top: 300px;
+    z-index: 3;
 }
 #third {
-    width: 200px;
-    height: 200px;
-    background-image: url('./assets/img/0112270049-1-l&d-top-love\ 157-3\ navy\ glitter.png');
+    width: 400px;
+    height: 400px;
+    /* background-image: url('./assets/img/0112270049-1-l&d-top-love\ 157-3\ navy\ glitter.png'); */
+    background-color: rgb(1, 136, 91);
     background-size:100% auto;
     position: absolute;
-    left: 700px;
-    top: 350px;
+    left: 200px;
+    top: 300px;
+    z-index: 2;
 }
 #fourth {
-    width: 200px;
-    height: 200px;
-    background-image: url('./assets/img/0118280003-1-wrangler-kjole-flannel\ dress\ black.png');
+    width: 400px;
+    height: 400px;
+    /* background-image: url('./assets/img/0118280003-1-wrangler-kjole-flannel\ dress\ black.png'); */
+    background-color: rgb(3, 85, 58);
     background-size:100% auto;
     position: absolute;
-    left: 950px;
-    top: 400px;
+    left: 200px;
+    top: 300px;
+    z-index: 1;
 }
 
 #button {
