@@ -38,3 +38,7 @@
     left: 950px;
     top: 400px;
 }
+
+#button {
+    position: absolute;
+}
