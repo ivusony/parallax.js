@@ -1,0 +1,23 @@
+{
+  "name": "parallax",
+  "version": "1.0.0",
+  "description": "converts static page into dynamic one. Every absolutely positioned element can be animated using the global parallax() function.",
+  "main": "parallax.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivusony/parallax.js.git"
+  },
+  "author": "radulov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ivusony/parallax.js/issues"
+  },
+  "homepage": "https://github.com/ivusony/parallax.js#readme",
+  "devDependencies": {
+    "webpack": "^4.29.0",
+    "webpack-cli": "^3.2.1"
+  }
+}
