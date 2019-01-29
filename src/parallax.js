@@ -1,4 +1,4 @@
-
+const throttler = require('./throttler');
 
     
     module.exports = function(global, originalProto){
@@ -58,17 +58,6 @@
                                             }
                                         }
 
-                                        //throtler function
-                                        var throttler = function(delay, cb){
-                                            let lastCall = 0;
-                                            return function(e){
-                                                let now = (new Date).getTime();
-                                                if(now - lastCall < delay)return;
-                                                lastCall = now;
-                                                return cb(e)
-                                            }
-                                        }
-
                                         window.addEventListener('mousemove', throttler(40, animator)); //don't run animator unless X amount of time has passed from the last call
 
                                         return element;
@@ -81,11 +70,23 @@
                     this.pull(ratio, duration, ease, true)
                 },
 
-                customMethods.scroll = function(){
-                   global.addEventListener('mousewheel', function(e){
-                       console.log(e);
-                   }) 
+                customMethods.scrollToPosition = function(distance, durationPer1000px){
+                    var counter = 0;
+                    var travelled = 0;
+                    
+                   global.addEventListener('mousedown', function(){
+                       var int = setInterval(function(){
+                            if(counter>10){
+                                clearInterval(int)
+                            }
+                            travelled+=10;
+                            global.scrollTo(0, travelled);
+                       },1000)
+                   })
+                 
                 }
+
+
         
                 return customMethods;
     }
