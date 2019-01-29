@@ -2,7 +2,7 @@
   "name": "parallax",
   "version": "1.0.0",
   "description": "converts static page into dynamic one. Every absolutely positioned element can be animated using the global parallax() function.",
-  "main": "parallax.js",
+  "main": "./src/init.js",
   "scripts": {
     "build": "webpack"
   },
