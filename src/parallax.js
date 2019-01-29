@@ -1,7 +1,7 @@
 
 
     
-    module.exports = function(originalProto){
+    module.exports = function(global, originalProto){
 
         //setting the returned method object parent in prototype chain to be the original parent of the element
         //basically inserting this object between the element (the instance of the parent object) and the parent object linking 
@@ -79,10 +79,16 @@
                     if(!duration)duration=0.3;
                     if(!ease)ease="ease-out";
                     this.pull(ratio, duration, ease, true)
+                },
+
+                customMethods.scroll = function(){
+                   global.addEventListener('mousewheel', function(e){
+                       console.log(e);
+                   }) 
                 }
         
                 return customMethods;
-    } 
+    }
 
    
    
