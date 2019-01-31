@@ -1,4 +1,5 @@
-const throttler = require('./throttler');
+const   throttler   = require('./throttler'),
+        timer       = require('./timer');
 
     
     module.exports = function(global, originalProto){
@@ -70,18 +71,15 @@ const throttler = require('./throttler');
                     this.pull(ratio, duration, ease, true)
                 },
 
-                customMethods.scrollToPosition = function(distance, durationPer1000px){
-                    var counter = 0;
-                    var travelled = 0;
-                    
+                //
+                customMethods.scrollToPosition = function(distance, speedPerStep){
+                   
                    global.addEventListener('mousedown', function(){
-                       var int = setInterval(function(){
-                            if(counter>10){
-                                clearInterval(int)
-                            }
-                            travelled+=10;
-                            global.scrollTo(0, travelled);
-                       },1000)
+                       var currentY = window.pageYOffset;
+                        timer(function(passed, cb){
+                            window.scrollTo(0, passed);
+                            cb();
+                        },currentY, speedPerStep, distance)
                    })
                  
                 }

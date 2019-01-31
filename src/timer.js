@@ -1,29 +1,36 @@
-function timer(cb, delay, totalDistance){
+module.exports = function timer(cb, currentYPosition, delay, totalDistance){
     //seting the starting time in miliseconds
     var startTime = Date.now();
     //total distance allready passed
-    var distancePassed = 0;
+    var distancePassed = currentYPosition;
     //step is calculated as the result of the division of the desired location and time 
     //to finish the animation in miliseconds
-    var step = totalDistance/1000;
+    var step = totalDistance/100;
 
     function inner(){
         //set stop to true if true the passed distandce is greather or equal to desired location
-        var stop = distancePassed<totalDistance ? false : true;
+        var stop;
+        if(distancePassed<totalDistance){
+            stop = distancePassed<totalDistance ? false : true;
+        }else{
+            stop = distancePassed>totalDistance ? false : true;
+        }
+        
         //if true, return
         if(stop)return;
         
         setTimeout(function(){
-            distancePassed+=step;
-            var passed = Date.now() - startTime;
-            cb(passed, inner);
+            if(distancePassed<totalDistance){
+                distancePassed+=step;
+            }else{
+                distancePassed-=step;
+            }
+            
+            // var passed = Date.now() - startTime;
+            
+            //passing inner to callbacka
+            cb(distancePassed, inner);
         },delay)
     }
     inner()
 }
-
-
-timer(function(pass, cb){
-    console.log('Delayed by ' + pass + ' miliseconds');
-    cb();
-}, 8, 1000)
